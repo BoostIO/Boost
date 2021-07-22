@@ -195,7 +195,13 @@ const App = () => {
           pathname === '/app' ||
           pathname === '/app/storages'
         ) {
-          if (localSpaces.length > 0) {
+          // read location from local storage and set initial page from it if it exists
+          const previousPathname = localStorage.getItem(
+            'lastOpenedPagePathname'
+          )
+          if (previousPathname) {
+            push(previousPathname)
+          } else if (localSpaces.length > 0) {
             push(`/app/storages/${localSpaces[0].id}`)
           } else if (cloudSpaces.length > 0) {
             push(`/app/boosthub/teams/${cloudSpaces[0].domain}`)

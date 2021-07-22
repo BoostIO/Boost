@@ -46,6 +46,8 @@ function useRouteStore(): RouterStore {
 
   useEffect(() => {
     return browserHistory.listen((blocation) => {
+      // save last location for reload and application close
+      localStorage.setItem('lastOpenedPagePathname', blocation.pathname)
       setLocation({
         pathname: blocation.pathname,
         hash: blocation.hash,

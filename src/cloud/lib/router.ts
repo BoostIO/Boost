@@ -11,9 +11,12 @@ const browserHistory = createBrowserHistory<unknown>({
 })
 
 export type Url = UrlObject | string
-
+const previousPathname = localStorage.getItem('lastOpenedPagePathname')
 const initialLocation = normalizeLocation({
-  pathname: browserHistory.location.pathname,
+  pathname:
+    previousPathname != null
+      ? previousPathname
+      : browserHistory.location.pathname,
   hash: browserHistory.location.hash,
   search: browserHistory.location.search,
 })
@@ -81,6 +84,7 @@ function useRouterStore() {
 
   useEffect(() => {
     return browserHistory.listen((blocation) => {
+      localStorage.setItem('lastOpenedPagePathname', blocation.pathname)
       setLocation({
         pathname: blocation.pathname,
         hash: blocation.hash,
